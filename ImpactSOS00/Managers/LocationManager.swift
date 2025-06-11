@@ -17,7 +17,8 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        lastLocation = locations.first
+//        lastLocation = locations.first
+        lastLocation = locations.last
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
