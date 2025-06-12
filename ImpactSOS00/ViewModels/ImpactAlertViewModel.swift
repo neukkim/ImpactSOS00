@@ -9,6 +9,14 @@ import Foundation
 import CoreLocation
 
 class ImpactAlertViewModel: ObservableObject {
+    
+    
+    //
+    var activeViewModel: ActiveViewModel?
+    
+    @Published var isImpactHandled = false
+    
+    
     @Published var phoneNumberList: [String] = []
     @Published var impactDetected = false
     @Published var messageSent = false
@@ -25,6 +33,17 @@ class ImpactAlertViewModel: ObservableObject {
     }
 
     func handleImpact() {
+        
+        guard !isImpactHandled else {
+            print("이미 처리됨")
+            return
+        }
+
+        isImpactHandled = true
+        print("충격 처리됨")
+        
+        activeViewModel?.startAlert()
+        
         impactDetected = true
         let coordinate = lastCoordinate
         locationURL = coordinate.map { "https://www.google.com/maps?q=\($0.latitude),\($0.longitude)" }

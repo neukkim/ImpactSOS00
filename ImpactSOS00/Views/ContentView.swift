@@ -198,10 +198,11 @@ struct ContentView: View {
         .onReceive(motionManager.$lastImpact) { date in
             guard date != nil else { return }
             viewModel.handleImpact()
-            activeViewModel.startAlert()
+//            activeViewModel.startAlert()
         }
         .onAppear {
             motionManager.start()
+            viewModel.activeViewModel = activeViewModel
         }
         
     }
