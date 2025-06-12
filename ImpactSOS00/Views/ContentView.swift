@@ -37,6 +37,7 @@ struct ContentView: View {
                 
                 Button(action: {
                     viewModel.sendMessages(message: "SOS!!!! 상황 해제 입니다. 걱정 마세요!!! ")
+                    activeViewModel.stopAlert()
                 }) {
                     Text("S O S  해 제")
                         .frame(maxWidth: .infinity)
@@ -50,20 +51,36 @@ struct ContentView: View {
                 /* 번호등록 버튼은  Button() + 모달 형태가 아닌,,, NavigationLink + 화면 전환.  인 개념
                  */
                 
-                Button {
-                    activeViewModel.playBuzzer()
-                    activeViewModel.emergencyText = "응급 상황이 발생했습니다"
-                    activeViewModel.isEmergency = true
-                    activeViewModel.startRainbowAnimation()
-                } label: {
-                    Text("충격감지 테스트")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.red)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                        .padding(.horizontal, 40)
+//                Button {
+//                    activeViewModel.playBuzzer()
+//                    activeViewModel.emergencyText = "응급 상황이 발생했습니다"
+//                    activeViewModel.isEmergency = true
+//                    activeViewModel.startRainbowAnimation()
+//                } label: {
+//                    Text("충격감지 테스트")
+//                        .frame(maxWidth: .infinity)
+//                        .padding()
+//                        .background(Color.red)
+//                        .foregroundColor(.white)
+//                        .cornerRadius(12)
+//                        .padding(.horizontal, 40)
+//                }
+                Button("충격감지 테스트") {
+//                    activeViewModel.startAlert()
+                    activeViewModel.startAlert()
                 }
+                .padding()
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(12)
+
+                Button("테스트 중지") {
+                    activeViewModel.stopAlert()
+                }
+                .padding()
+                .background(Color.gray)
+                .foregroundColor(.white)
+                .cornerRadius(12)
                 
                 if !activeViewModel.registeredPhoneNumbers.isEmpty {
                     Text("📞 등록된 전화번호: \(activeViewModel.registeredPhoneNumbers)")
@@ -181,6 +198,7 @@ struct ContentView: View {
         .onReceive(motionManager.$lastImpact) { date in
             guard date != nil else { return }
             viewModel.handleImpact()
+            activeViewModel.startAlert()
         }
         .onAppear {
             motionManager.start()
