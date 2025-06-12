@@ -57,11 +57,6 @@ struct PhoneNumberRegisterView: View {
                     }
                 }
             }
-//            List {
-//                ForEach(phoneNumbers, id: \.self) { number in
-//                    Text(number)
-//                }.onDelete(perform: deleteNumber)
-//            }
             Spacer()
         }
         .padding(.top, 40)

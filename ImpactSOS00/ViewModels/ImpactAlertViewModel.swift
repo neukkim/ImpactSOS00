@@ -10,13 +10,9 @@ import CoreLocation
 
 class ImpactAlertViewModel: ObservableObject {
     
-    
-    //
     var activeViewModel: ActiveViewModel?
     
     @Published var isImpactHandled = false
-    
-    
     @Published var phoneNumberList: [String] = []
     @Published var impactDetected = false
     @Published var messageSent = false
@@ -56,12 +52,14 @@ class ImpactAlertViewModel: ObservableObject {
         """
         
         sendMessages(message: message)
+        print("message:\(message)")
         messageSent = true
     }
 
     func sendMessages(message: String) {
         for number in phoneNumberList {
             sendSMS(to: number, from: number, text: message)
+            print("phoneNumberList:\(phoneNumberList)")
         }
     }
 
