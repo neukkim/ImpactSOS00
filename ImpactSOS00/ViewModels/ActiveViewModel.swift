@@ -9,6 +9,9 @@ class ActiveViewModel: ObservableObject {
     @Published var emergencyText = "충격 감지 대기 중"
     @Published var isEmergency = false
     @Published var registeredPhoneNumbers: [String] = []
+    
+    @Published var flash = false
+    //Add flash
 
     let rainbowColors: [Color] = [.orange, .yellow, .green, .blue, .purple]
     private var buzzerTimer: Timer?
@@ -19,10 +22,22 @@ class ActiveViewModel: ObservableObject {
     func playBuzzer() {
         AudioServicesPlaySystemSound(SystemSoundID(1012))
     }
+    
+    func playFlash() {
+        if flash {
+            SOSFlashManager.shared.startSOS()
+        } else {
+            SOSFlashManager.shared.stopSOS()
+        }
+        
+    }
 
 
     func startAlert() {
-
+        
+        flash = true
+        playFlash()
+        
         isRainbowMode = true
         isAlert = true
         isEmergency = true
@@ -55,6 +70,10 @@ class ActiveViewModel: ObservableObject {
 
     // 중지 및 초기화
     func stopAlert() {
+        
+        flash = false
+        playFlash()
+        
         isRainbowMode = false
         isAlert = false
         isEmergency = false
