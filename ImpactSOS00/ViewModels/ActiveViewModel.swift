@@ -51,10 +51,10 @@ class ActiveViewModel: ObservableObject {
         }
 
         // 반복 부저
-//        buzzerTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true)
-//        { _ in
-//            self.playBuzzer()
-//        }
+        buzzerTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true)
+        { _ in
+            self.playBuzzer()
+        }
 
         rainbowIndex = 0
         rainbowTimer = Timer.scheduledTimer(

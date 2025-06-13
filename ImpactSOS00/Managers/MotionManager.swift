@@ -7,7 +7,7 @@ class MotionManager: ObservableObject {
     
     @Published var lastImpact: Date?
     
-    var thresholdG: Double = 1.5
+    var thresholdG: Double = 1.0
     
     init() {
         motion.deviceMotionUpdateInterval = 0.02

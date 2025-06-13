@@ -66,10 +66,10 @@ class ImpactAlertViewModel: ObservableObject {
     }
 
     func sendMessages(message: String) {
-//        for number in phoneNumberList {
-//            sendSMS(to: number, from: number, text: message)
-//            print("phoneNumberList:\(phoneNumberList)")
-//        }
+        for number in phoneNumberList {
+            sendSMS(to: number, from: number, text: message)
+            print("sendMessages phoneNumberList:\(phoneNumberList)")
+        }
     }
 
     private func sendSMS(to: String, from: String, text: String) {
