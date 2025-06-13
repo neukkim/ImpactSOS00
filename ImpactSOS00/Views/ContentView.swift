@@ -8,9 +8,12 @@ struct ContentView: View {
     @StateObject private var viewModel = ImpactAlertViewModel()
     @StateObject private var activeViewModel = ActiveViewModel()
     
+    @State private var locationStatusText = "⏳ 위치 정보를 불러오는 중입니다..."
+    
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
+                
                 Color.clear.frame(height: 100)
                 
                 Image(systemName: "light.beacon.max")
@@ -70,12 +73,32 @@ struct ContentView: View {
 //                .foregroundColor(.white)
 //                .cornerRadius(12)
                 
-                if !activeViewModel.registeredPhoneNumbers.isEmpty {
-                    Text("📞 등록된 전화번호: \(activeViewModel.registeredPhoneNumbers)")
+                if !viewModel.phoneNumberList.isEmpty {
+                    Text("📞 등록된 전화번호: \(viewModel.phoneNumberList)")
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                } else {
+                    Text("📞 등록된 전화번호가 없습니다.")
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
-            }
+                
+                Text(locationStatusText)
+                    .font(.headline)
+                    .foregroundColor(viewModel.locationLoaded ? .green : .gray)
+                
+//                if let coordinate = viewModel.lastCoordinate {
+//                    Text("📍 위치 정보가 확인되었습니다")
+//                        .font(.headline)
+//                        .foregroundColor(.green)
+//                    
+//                    Text("위도: \(coordinate.latitude)")
+//                    Text("경도: \(coordinate.longitude)")
+//                } else {
+//                    Text("⏳ 위치 정보를 불러오는 중입니다...")
+//                        .foregroundColor(.gray)
+//                }
+            } // End VStack
             .frame(maxHeight: .infinity, alignment: .top)
             .padding(.top, 10)
             .background(activeViewModel.isRainbowMode ?
@@ -121,7 +144,15 @@ struct ContentView: View {
         .onReceive(motionManager.$lastImpact) { date in
             guard date != nil else { return }
             viewModel.handleImpact()
+            
         }
+        
+        .onReceive(viewModel.$locationLoaded) { loaded in
+            if loaded {
+                locationStatusText = "📍 위치 정보가 확인되었습니다"
+            }
+        }
+        
         .onAppear {
             motionManager.start()
             viewModel.activeViewModel = activeViewModel

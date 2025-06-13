@@ -17,15 +17,24 @@ class ImpactAlertViewModel: ObservableObject {
     @Published var impactDetected = false
     @Published var messageSent = false
     @Published var locationURL: String = ""
+    @Published var locationLoaded = false
     
     private let locationManager = LocationManager()
     
     init() {
         locationManager.requestLocation()
+        
+        locationManager.onLocationUpdated = {
+            self.locationLoaded = true
+        }
     }
     
     var lastCoordinate: CLLocationCoordinate2D? {
         locationManager.lastLocation?.coordinate
+    }
+    
+    func requestLocation() {
+        locationManager.requestLocation()
     }
 
     func handleImpact() {
@@ -57,10 +66,10 @@ class ImpactAlertViewModel: ObservableObject {
     }
 
     func sendMessages(message: String) {
-        for number in phoneNumberList {
-            sendSMS(to: number, from: number, text: message)
-            print("phoneNumberList:\(phoneNumberList)")
-        }
+//        for number in phoneNumberList {
+//            sendSMS(to: number, from: number, text: message)
+//            print("phoneNumberList:\(phoneNumberList)")
+//        }
     }
 
     private func sendSMS(to: String, from: String, text: String) {
